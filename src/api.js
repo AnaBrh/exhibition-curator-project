@@ -28,14 +28,12 @@ const fetchHarvardArtworks = async (query, filters = {}, sortOption = '') => {
         imageUrl
       };
     });
-
     return artworksWithImages;
   } catch (error) {
     console.error('Error fetching Harvard artworks:', error);
     return [];
   }
 };
-
 
 // Fetch Met Artworks
 const fetchMetArtworks = async (query, filters = {}, sortOption = '') => {
@@ -67,6 +65,9 @@ const fetchArtworks = async (query, filters = {}, sortOption = '') => {
     fetchHarvardArtworks(query, filters, sortOption),
     fetchMetArtworks(query, filters, sortOption)
   ]);
+
+  console.log('Combined Artworks:', { harvardArtworks, metArtworks });
+
   return {
     harvardArtworks,
     metArtworks
