@@ -36,7 +36,6 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
   return (
     <div>
       <SortDropdown sortOption={sortOption} onSortChange={setSortOption} />
-      <h1>Harvard Artworks</h1>
       <div>
         {sortedHarvardArtworks.map(artwork => {
           const artistName = artwork.people && artwork.people.length > 0 
@@ -61,7 +60,6 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
           );
         })}
       </div>
-      <h1>Met Artworks</h1>
       <div>
         {sortedMetArtworks.map(artwork => {
           const artistName = artwork.artistDisplayName || 'Unknown Artist';
