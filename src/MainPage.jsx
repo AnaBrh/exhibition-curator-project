@@ -32,6 +32,12 @@ const MainPage = () => {
     setSortOption(option);
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <div>
       <header>
@@ -40,6 +46,7 @@ const MainPage = () => {
           type="text"
           value={query}
           onChange={e => setQuery(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Search all fields"
         />
         <button onClick={handleSearch}>Search</button>
