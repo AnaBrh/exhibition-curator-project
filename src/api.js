@@ -18,16 +18,18 @@ const fetchHarvardArtworks = async (query, filters = {}, sortOption = '') => {
     const response = await axios.get(`${HARVARD_API_URL}/object`, { params });
 
     const records = response.data.records || [];
-    const artworksWithImages = records.map(record => {
-      let imageUrl = record.primaryimageurl;
-      if (!imageUrl && record.iiifbaseuri) {
-        imageUrl = `${record.iiifbaseuri}/full/full/0/default.jpg`;
-      }
-      return {
-        ...record,
-        imageUrl
-      };
-    });
+    const artworksWithImages = records
+      .filter(record => record.primaryimageurl || record.iiifbaseuri)
+      .map(record => {
+        let imageUrl = record.primaryimageurl;
+        if (!imageUrl && record.iiifbaseuri) {
+          imageUrl = `${record.iiifbaseuri}/full/full/0/default.jpg`;
+        }
+        return {
+          ...record,
+          imageUrl
+        };
+      });
     return artworksWithImages;
   } catch (error) {
     console.error('Error fetching Harvard artworks:', error);
@@ -43,7 +45,7 @@ const fetchMetArtworks = async (query, filters = {}, sortOption = '') => {
         q: query,
         hasImages: true,
         ...filters,
-        sort: sortOption, 
+        sort: sortOption,
       }
     });
 
@@ -52,7 +54,10 @@ const fetchMetArtworks = async (query, filters = {}, sortOption = '') => {
     const artworks = await Promise.all(
       objectIDs.slice(0, 50).map(id => axios.get(`${MET_API_URL}/objects/${id}`))
     );
-    return artworks.map(res => res.data);
+
+    return artworks
+      .map(res => res.data)
+      .filter(artwork => artwork.primaryImage);
   } catch (error) {
     console.error('Error fetching Met artworks:', error);
     return [];
