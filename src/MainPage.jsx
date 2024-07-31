@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { fetchArtworks } from './api';
-import FilterDropdown from './FilterDropdown';
-import SortDropdown from './SortDropdown';
 import ArtworksDisplay from './ArtworksDisplay';
 
 const MainPage = () => {
@@ -45,9 +43,6 @@ const MainPage = () => {
           placeholder="Search all fields"
         />
         <button onClick={handleSearch}>Search</button>
-        
-        <FilterDropdown onFilterChange={handleFilterChange} />
-        <SortDropdown onSortChange={handleSortChange} />
       </header>
 
       <main>
