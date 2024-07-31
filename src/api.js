@@ -7,33 +7,35 @@ const HARVARD_API_KEY = import.meta.env.VITE_HARVARD_API_KEY;
 // Fetch Harvard Artworks
 const fetchHarvardArtworks = async (query, filters = {}, sortOption = '') => {
   try {
-    // Construct the query parameters
     const params = {
       apikey: HARVARD_API_KEY,
-      hasImages: 0, // images not showing properly
+      hasimage: 1,
       q: query,
       ...filters,
       sort: sortOption,
     };
 
-    // Log the parameters and the constructed URL
-    console.log('Harvard API Request Params:', params);
-
-
-    // Make the API request
     const response = await axios.get(`${HARVARD_API_URL}/object`, { params });
 
-    // Log the response
-    console.log('Harvard API Response:', response);
+    const records = response.data.records || [];
+    const artworksWithImages = records.map(record => {
+      let imageUrl = record.primaryimageurl;
+      if (!imageUrl && record.iiifbaseuri) {
+        imageUrl = `${record.iiifbaseuri}/full/full/0/default.jpg`;
+      }
+      return {
+        ...record,
+        imageUrl
+      };
+    });
 
-    // Return the records or an empty array if none are found
-    console.log(response, "<--response")
-    return response.data.records || [];
+    return artworksWithImages;
   } catch (error) {
     console.error('Error fetching Harvard artworks:', error);
     return [];
   }
 };
+
 
 // Fetch Met Artworks
 const fetchMetArtworks = async (query, filters = {}, sortOption = '') => {
@@ -42,11 +44,13 @@ const fetchMetArtworks = async (query, filters = {}, sortOption = '') => {
       params: {
         q: query,
         hasImages: true,
-        ...filters, // Add filters here if applicable
-        sort: sortOption, // Add sort option here if applicable
+        ...filters,
+        sort: sortOption, 
       }
     });
+
     const objectIDs = searchResponse.data.objectIDs || [];
+
     const artworks = await Promise.all(
       objectIDs.slice(0, 50).map(id => axios.get(`${MET_API_URL}/objects/${id}`))
     );
@@ -63,7 +67,6 @@ const fetchArtworks = async (query, filters = {}, sortOption = '') => {
     fetchHarvardArtworks(query, filters, sortOption),
     fetchMetArtworks(query, filters, sortOption)
   ]);
-
   return {
     harvardArtworks,
     metArtworks
