@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
-import { fetchArtworks } from './api'; // Import your fetchArtworks function
-import FilterDropdown from './FilterDropdown'; // Import FilterDropdown
-import SortDropdown from './SortDropdown'; // Import SortDropdown
+import { fetchArtworks } from './api';
+import FilterDropdown from './FilterDropdown';
+import SortDropdown from './SortDropdown';
+import ArtworksDisplay from './ArtworksDisplay';
 
 const MainPage = () => {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState({});
   const [sortOption, setSortOption] = useState('');
   const [results, setResults] = useState({ harvardArtworks: [], metArtworks: [] });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleSearch = async () => {
-    const data = await fetchArtworks(query, filters, sortOption);
-    setResults(data);
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await fetchArtworks(query, filters, sortOption);
+      setResults(data);
+    } catch (err) {
+      console.error('Error fetching artworks:', err);
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFilterChange = (newFilters) => {
@@ -25,12 +37,12 @@ const MainPage = () => {
   return (
     <div>
       <header>
-        <h1>Artworks Search</h1>
+        <h1>Search the Gallery</h1>
         <input
           type="text"
           value={query}
           onChange={e => setQuery(e.target.value)}
-          placeholder="Search artworks"
+          placeholder="Search all fields"
         />
         <button onClick={handleSearch}>Search</button>
         
@@ -39,24 +51,10 @@ const MainPage = () => {
       </header>
 
       <main>
-        <section>
-          {results.harvardArtworks.map(artwork => (
-            <div key={artwork.id}>
-              <h3>{artwork.title}</h3>
-              <p>{artwork.artist}</p>
-              <img src={artwork.primaryImageUrl} alt={artwork.title} />
-            </div>
-          ))}
-        </section>
-        <section>
-          {results.metArtworks.map(artwork => (
-            <div key={artwork.objectID}>
-              <h3>{artwork.title}</h3>
-              <p>{artwork.artistDisplayName}</p>
-              <img src={artwork.primaryImageSmall} alt={artwork.title} />
-            </div>
-          ))}
-        </section>
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
+        
+        <ArtworksDisplay harvardArtworks={results.harvardArtworks} metArtworks={results.metArtworks} />
       </main>
     </div>
   );
