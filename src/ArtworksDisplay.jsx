@@ -1,12 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import SortDropdown from './SortDropdown';
 
 const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
+  const [sortOption, setSortOption] = useState('relevance');
+  const [sortedHarvardArtworks, setSortedHarvardArtworks] = useState(harvardArtworks);
+  const [sortedMetArtworks, setSortedMetArtworks] = useState(metArtworks);
+
+  useEffect(() => {
+    const sortArtworks = (artworks, option) => {
+      return [...artworks].sort((a, b) => {
+        switch (option) {
+          case 'title-asc':
+            return (a.title || '').localeCompare(b.title || '');
+          case 'title-desc':
+            return (b.title || '').localeCompare(a.title || '');
+          case 'date-asc':
+            return new Date(a.dateend || a.objectEndDate) - new Date(b.dateend || b.objectEndDate);
+          case 'date-desc':
+            return new Date(b.dateend || b.objectEndDate) - new Date(a.dateend || a.objectEndDate);
+          case 'artist-asc':
+            return (a.people && a.people[0]?.alphasort || 'zzzzz').localeCompare(b.people && b.people[0]?.alphasort || 'zzzzz');
+          case 'artist-desc':
+            return (b.people && b.people[0]?.alphasort || 'zzzzz').localeCompare(a.people && a.people[0]?.alphasort || 'zzzzz');
+          case 'relevance':
+          default:
+            return 0;
+        }
+      });
+    };
+
+    setSortedHarvardArtworks(sortArtworks(harvardArtworks, sortOption));
+    setSortedMetArtworks(sortArtworks(metArtworks, sortOption));
+  }, [harvardArtworks, metArtworks, sortOption]);
+
   return (
     <div>
+      <SortDropdown sortOption={sortOption} onSortChange={setSortOption} />
       <h1>Harvard Artworks</h1>
       <div>
-        {harvardArtworks.map(artwork => {
-          // Extract artist's name from the 'people' array
+        {sortedHarvardArtworks.map(artwork => {
           const artistName = artwork.people && artwork.people.length > 0 
             ? artwork.people[0].displayname 
             : 'Unknown Artist';
@@ -27,21 +59,18 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
               ) : (
                 <img 
                   src='https://t4.ftcdn.net/jpg/00/89/55/15/360_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg'
-                  alt="Placeholder" />
+                  alt="Image not available." />
               )}
               <h3>{artwork.title}</h3>
-              <p>{artistName}</p> {/* Display artist's name */}
+              <p>{artistName}</p>
             </div>
           );
         })}
       </div>
-      
       <h1>Met Artworks</h1>
       <div>
-        {metArtworks.map(artwork => {
-          // Extract artist's name from 'artistDisplayName'
+        {sortedMetArtworks.map(artwork => {
           const artistName = artwork.artistDisplayName || 'Unknown Artist';
-
           return (
             <div key={artwork.objectID}>
               {artwork.primaryImage ? (
@@ -58,10 +87,10 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
               ) : (
                 <img 
                   src='https://t4.ftcdn.net/jpg/00/89/55/15/360_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg'
-                  alt="Placeholder" />
+                  alt="Image not available." />
               )}
               <h3>{artwork.title}</h3>
-              <p>{artistName}</p> {/* Display artist's name */}
+              <p>{artistName}</p>
             </div>
           );
         })}
