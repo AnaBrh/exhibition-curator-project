@@ -73,7 +73,7 @@ const MainPage = () => {
           type="text"
           value={query}
           onChange={e => setQuery(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyPress}
           placeholder="Search all fields"
         />
         <button onClick={handleSearch}>Search</button>
