@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const ExhibitionPage = () => {
+const ExhibitionPage = (artwork) => {
   const [exhibition, setExhibition] = useState([]);
 
   useEffect(() => {
@@ -12,6 +12,16 @@ const ExhibitionPage = () => {
     }
   }, []);
 
+  const getArtistName = (artwork) => {
+    if (artwork.artistDisplayName) {
+      return artwork.artistDisplayName;
+    }
+    if (artwork.people && artwork.people.length > 0) {
+      return artwork.people[0].displayname || '';
+    }
+    return '';
+  };
+  
   return (
     <div>
       <header>
@@ -26,13 +36,12 @@ const ExhibitionPage = () => {
             {exhibition.map(artwork => (
               <div key={`${artwork.source}-${artwork.id || artwork.objectID}`}>
                 <img 
-                  src={artwork.imageUrl} 
+                  src={artwork.imageUrl || artwork.primaryImage} 
                   alt={artwork.title} 
                   style={{ width: '100px', height: 'auto' }} 
                 />
                 <h3>{artwork.title}</h3>
-                <p>{artwork.artistDisplayName}</p>
-                {/* Removed the Remove button */}
+                <p>{getArtistName(artwork)}</p>
               </div>
             ))}
           </div>
