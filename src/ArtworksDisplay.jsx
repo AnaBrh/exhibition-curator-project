@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SortDropdown from './SortDropdown';
 
-const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
+const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition }) => {
   const [sortOption, setSortOption] = useState('relevance');
   const [sortedHarvardArtworks, setSortedHarvardArtworks] = useState([]);
   const [sortedMetArtworks, setSortedMetArtworks] = useState([]);
@@ -61,6 +61,7 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
                   console.error('Image load error for URL:', artwork.primaryImage);
                 }} 
               />
+               <button onClick={() => handleAddToExhibition(artwork)}>Add to Exhibition</button>
               <h3>{artwork.title}</h3>
               <p>{artistName}</p>
             </div>
@@ -84,6 +85,7 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
                   console.error('Image load error for URL:', artwork.imageUrl);
                 }} 
               />
+              <button onClick={() => handleAddToExhibition(artwork)}>Add to Exhibition</button>
               <h3>{artwork.title}</h3>
               <p>{artistName}</p>
             </div>
