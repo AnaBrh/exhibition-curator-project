@@ -23,7 +23,10 @@ const fetchMetArtworks = async (query, filters = {}, sortOption = '') => {
     );
 
     return artworks
-      .map(res => res.data)
+      .map(res => ({
+        ...res.data,
+        source: 'met', // Indicate the source as 'met'
+      }))
       .filter(artwork => artwork.primaryImage);
   } catch (error) {
     console.error('Error fetching Met artworks:', error);
@@ -54,7 +57,8 @@ const fetchHarvardArtworks = async (query, filters = {}, sortOption = '') => {
         }
         return {
           ...record,
-          imageUrl
+          imageUrl,
+          source: 'harvard'
         };
       });
     return artworksWithImages;
