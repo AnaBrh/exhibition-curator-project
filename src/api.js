@@ -4,6 +4,33 @@ const MET_API_URL = "https://collectionapi.metmuseum.org/public/collection/v1";
 const HARVARD_API_URL = "https://api.harvardartmuseums.org";
 const HARVARD_API_KEY = import.meta.env.VITE_HARVARD_API_KEY;
 
+// Fetch Met Artworks
+const fetchMetArtworks = async (query, filters = {}, sortOption = '') => {
+  try {
+    const searchResponse = await axios.get(`${MET_API_URL}/search`, {
+      params: {
+        q: query,
+        hasImages: true,
+        ...filters,
+        sort: sortOption,
+      }
+    });
+
+    const objectIDs = searchResponse.data.objectIDs || [];
+
+    const artworks = await Promise.all(
+      objectIDs.slice(0, 50).map(id => axios.get(`${MET_API_URL}/objects/${id}`))
+    );
+
+    return artworks
+      .map(res => res.data)
+      .filter(artwork => artwork.primaryImage);
+  } catch (error) {
+    console.error('Error fetching Met artworks:', error);
+    return [];
+  }
+};
+
 // Fetch Harvard Artworks
 const fetchHarvardArtworks = async (query, filters = {}, sortOption = '') => {
   try {
@@ -37,32 +64,6 @@ const fetchHarvardArtworks = async (query, filters = {}, sortOption = '') => {
   }
 };
 
-// Fetch Met Artworks
-const fetchMetArtworks = async (query, filters = {}, sortOption = '') => {
-  try {
-    const searchResponse = await axios.get(`${MET_API_URL}/search`, {
-      params: {
-        q: query,
-        hasImages: true,
-        ...filters,
-        sort: sortOption,
-      }
-    });
-
-    const objectIDs = searchResponse.data.objectIDs || [];
-
-    const artworks = await Promise.all(
-      objectIDs.slice(0, 50).map(id => axios.get(`${MET_API_URL}/objects/${id}`))
-    );
-
-    return artworks
-      .map(res => res.data)
-      .filter(artwork => artwork.primaryImage);
-  } catch (error) {
-    console.error('Error fetching Met artworks:', error);
-    return [];
-  }
-};
 
 // Combined fetch function
 const fetchArtworks = async (query, filters = {}, sortOption = '') => {
