@@ -19,14 +19,24 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
           case 'date-desc':
             return new Date(b.dateend || b.objectEndDate) - new Date(a.dateend || a.objectEndDate);
           case 'artist-asc':
-            return (a.people && a.people[0]?.alphasort || 'zzzzz').localeCompare(b.people && b.people[0]?.alphasort || 'zzzzz');
+            return (getArtistName(a) || 'zzzzz').localeCompare(getArtistName(b) || 'zzzzz');
           case 'artist-desc':
-            return (b.people && b.people[0]?.alphasort || 'zzzzz').localeCompare(a.people && a.people[0]?.alphasort || 'zzzzz');
+            return (getArtistName(b) || 'zzzzz').localeCompare(getArtistName(a) || 'zzzzz');
           case 'relevance':
           default:
             return 0;
         }
       });
+    };
+
+    const getArtistName = (artwork) => {
+      if (artwork.artistDisplayName) {
+        return artwork.artistDisplayName;
+      }
+      if (artwork.people && artwork.people.length > 0) {
+        return artwork.people[0].displayname || '';
+      }
+      return '';
     };
 
     setSortedHarvardArtworks(sortArtworks(harvardArtworks, sortOption));
@@ -36,30 +46,6 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
   return (
     <div>
       <SortDropdown sortOption={sortOption} onSortChange={setSortOption} />
-      <div>
-        {sortedHarvardArtworks.map(artwork => {
-          const artistName = artwork.people && artwork.people.length > 0 
-            ? artwork.people[0].displayname 
-            : 'Unknown Artist';
-
-          return (
-            <div key={artwork.id}>
-              <img 
-                src={artwork.imageUrl} 
-                alt={artwork.title} 
-                style={{ display: 'block', maxWidth: '100%' }} 
-                onError={(e) => {
-                  e.target.onerror = null; 
-                  e.target.src = 'https://t4.ftcdn.net/jpg/00/89/55/15/360_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
-                  console.error('Image load error for URL:', artwork.imageUrl);
-                }} 
-              />
-              <h3>{artwork.title}</h3>
-              <p>{artistName}</p>
-            </div>
-          );
-        })}
-      </div>
       <div>
         {sortedMetArtworks.map(artwork => {
           const artistName = artwork.artistDisplayName || 'Unknown Artist';
@@ -73,6 +59,29 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks }) => {
                   e.target.onerror = null; 
                   e.target.src = 'https://t4.ftcdn.net/jpg/00/89/55/15/360_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
                   console.error('Image load error for URL:', artwork.primaryImage);
+                }} 
+              />
+              <h3>{artwork.title}</h3>
+              <p>{artistName}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div>
+        {sortedHarvardArtworks.map(artwork => {
+          const artistName = artwork.people && artwork.people.length > 0 
+            ? artwork.people[0].displayname 
+            : 'Unknown Artist';
+          return (
+            <div key={artwork.id}>
+              <img 
+                src={artwork.imageUrl} 
+                alt={artwork.title} 
+                style={{ display: 'block', maxWidth: '100%' }} 
+                onError={(e) => {
+                  e.target.onerror = null; 
+                  e.target.src = 'https://t4.ftcdn.net/jpg/00/89/55/15/360_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
+                  console.error('Image load error for URL:', artwork.imageUrl);
                 }} 
               />
               <h3>{artwork.title}</h3>
