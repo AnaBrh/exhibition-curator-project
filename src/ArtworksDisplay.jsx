@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import SortDropdown from './SortDropdown'; // Ensure you have this component for sorting
+import SortDropdown from './SortDropdown'; 
 
 const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition, exhibition }) => {
   const [selectedArtwork, setSelectedArtwork] = useState(null);
@@ -9,7 +9,6 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition, 
   const [sortedHarvardArtworks, setSortedHarvardArtworks] = useState([]);
   const [sortedMetArtworks, setSortedMetArtworks] = useState([]);
 
-  // Define getArtistName function
   const getArtistName = (artwork) => {
     if (artwork.artistDisplayName) {
       return artwork.artistDisplayName;

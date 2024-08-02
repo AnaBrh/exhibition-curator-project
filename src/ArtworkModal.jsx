@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 
-Modal.setAppElement('#root'); // This is important for accessibility reasons
+Modal.setAppElement('#root');
 
 const ArtworkModal = ({ isOpen, onRequestClose, artwork }) => {
   if (!artwork) return null;
