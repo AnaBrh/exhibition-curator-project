@@ -1,39 +1,34 @@
 import React, { useState } from 'react';
 import { fetchArtworks } from './api';
 import ArtworksDisplay from './ArtworksDisplay';
-import ExhibitionPage from './ExhibitionPage';
 import { Link } from 'react-router-dom';
 
-const MainPage = () => {
+const MainPage = ({ setArtworks }) => {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState({});
   const [sortOption, setSortOption] = useState('');
   const [results, setResults] = useState({ harvardArtworks: [], metArtworks: [] });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedArtworks, setSelectedArtworks] = useState([]);
-  const [exhibition, setExhibition] = useState([]); 
 
   const handleAddToExhibition = (artwork, source) => {
     let exhibition = JSON.parse(sessionStorage.getItem('exhibition')) || [];
 
-    // Check if the artwork is already in the exhibition
     const isArtworkInExhibition = exhibition.some(item => {
       if (source === 'harvard') {
-        return item.id === artwork.id;
+        return item.objectid === artwork.objectid;
       } else if (source === 'met') {
         return item.objectID === artwork.objectID;
       }
       return false;
     });
-  
+
     if (!isArtworkInExhibition) {
-      const artworkWithSource = { ...artwork, source }; // Add source to the artwork
+      const artworkWithSource = { ...artwork, source };
       exhibition.push(artworkWithSource);
       sessionStorage.setItem('exhibition', JSON.stringify(exhibition));
-      setExhibition(exhibition); 
+      setArtworks(exhibition);
     }
-    console.log("Added to exhibition");
   };
 
   const handleSearch = async () => {
@@ -50,14 +45,6 @@ const MainPage = () => {
     }
   };
 
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-  };
-
-  const handleSortChange = (option) => {
-    setSortOption(option);
-  };
-
   const handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       handleSearch();
@@ -67,8 +54,8 @@ const MainPage = () => {
   return (
     <div>
       <header>
-      <h1>Search the Gallery</h1>
-      <Link to="/exhibition">View My Exhibition</Link>
+        <h1>Search the Gallery</h1>
+        <Link to="/exhibition">View My Exhibition</Link>
         <input
           type="text"
           value={query}
@@ -88,7 +75,6 @@ const MainPage = () => {
           metArtworks={results.metArtworks}
           handleAddToExhibition={handleAddToExhibition}
         />
-          {selectedArtworks.length > 0 && <ExhibitionPage selectedArtworks={selectedArtworks} />}
       </main>
     </div>
   );
