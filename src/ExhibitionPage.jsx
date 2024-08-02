@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const ExhibitionPage = (artwork) => {
+const ExhibitionPage = () => {
   const [exhibition, setExhibition] = useState([]);
 
   useEffect(() => {
-    // Load the exhibition from sessionStorage
     const savedExhibition = sessionStorage.getItem('exhibition');
     if (savedExhibition) {
       setExhibition(JSON.parse(savedExhibition));
@@ -34,12 +33,14 @@ const ExhibitionPage = (artwork) => {
         ) : (
           <div>
             {exhibition.map(artwork => (
-              <div key={`${artwork.source}-${artwork.id || artwork.objectID}`}>
-                <img 
-                  src={artwork.imageUrl || artwork.primaryImage} 
-                  alt={artwork.title} 
-                  style={{ width: '100px', height: 'auto' }} 
-                />
+              <div key={`${artwork.source}-${artwork.objectid || artwork.objectID}`}>
+                <Link to={`/artwork/${artwork.source}/${artwork.objectid || artwork.objectID}`}>
+                  <img 
+                    src={artwork.imageUrl || artwork.primaryImage} 
+                    alt={artwork.title} 
+                    style={{ width: '100px', height: 'auto' }} 
+                  />
+                </Link>
                 <h3>{artwork.title}</h3>
                 <p>{getArtistName(artwork)}</p>
               </div>

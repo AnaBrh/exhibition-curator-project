@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import SortDropdown from './SortDropdown';
 
 const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition }) => {
@@ -51,17 +52,19 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition }
           const artistName = artwork.artistDisplayName || 'Unknown Artist';
           return (
             <div key={artwork.objectID}>
-              <img 
-                src={artwork.primaryImage} 
-                alt={artwork.title} 
-                style={{ display: 'block', maxWidth: '100%' }} 
-                onError={(e) => {
-                  e.target.onerror = null; 
-                  e.target.src = 'https://t4.ftcdn.net/jpg/00/89/55/15/360_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
-                  console.error('Image load error for URL:', artwork.primaryImage);
-                }} 
-              />
-               <button onClick={() => handleAddToExhibition(artwork)}>Add to Exhibition</button>
+              <Link to={`/artwork/met/${artwork.objectID}`}>
+                <img 
+                  src={artwork.primaryImage} 
+                  alt={artwork.title} 
+                  style={{ display: 'block', maxWidth: '100%' }} 
+                  onError={(e) => {
+                    e.target.onerror = null; 
+                    e.target.src = 'https://t4.ftcdn.net/jpg/00/89/55/15/360_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
+                    console.error('Image load error for URL:', artwork.primaryImage);
+                  }} 
+                />
+              </Link>
+              <button onClick={() => handleAddToExhibition(artwork, 'met')}>Add to Exhibition</button>
               <h3>{artwork.title}</h3>
               <p>{artistName}</p>
             </div>
@@ -74,18 +77,20 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition }
             ? artwork.people[0].displayname 
             : 'Unknown Artist';
           return (
-            <div key={artwork.id}>
-              <img 
-                src={artwork.imageUrl} 
-                alt={artwork.title} 
-                style={{ display: 'block', maxWidth: '100%' }} 
-                onError={(e) => {
-                  e.target.onerror = null; 
-                  e.target.src = 'https://t4.ftcdn.net/jpg/00/89/55/15/360_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
-                  console.error('Image load error for URL:', artwork.imageUrl);
-                }} 
-              />
-              <button onClick={() => handleAddToExhibition(artwork)}>Add to Exhibition</button>
+            <div key={artwork.objectid}>
+              <Link to={`/artwork/harvard/${artwork.objectid}`}>
+                <img 
+                  src={artwork.imageUrl} 
+                  alt={artwork.title} 
+                  style={{ display: 'block', maxWidth: '100%' }} 
+                  onError={(e) => {
+                    e.target.onerror = null; 
+                    e.target.src = 'https://t4.ftcdn.net/jpg/00/89/55/15/360_F_89551596_LdHAZRwz3i4EM4J0NHNHy2hEUYDfXc0j.jpg';
+                    console.error('Image load error for URL:', artwork.imageUrl);
+                  }} 
+                />
+              </Link>
+              <button onClick={() => handleAddToExhibition(artwork, 'harvard')}>Add to Exhibition</button>
               <h3>{artwork.title}</h3>
               <p>{artistName}</p>
             </div>
