@@ -7,7 +7,7 @@ const MainPage = () => {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState({});
   const [sortOption, setSortOption] = useState('');
-  const [results, setResults] = useState({ harvardArtworks: [], metArtworks: [] });
+  const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [exhibition, setExhibition] = useState([]); 
@@ -72,13 +72,7 @@ const MainPage = () => {
       <main>
         {loading && <p>Loading...</p>}
         {error && <p>Error: {error.message}</p>}
-        
-        <ArtworksDisplay 
-          harvardArtworks={results.harvardArtworks} 
-          metArtworks={results.metArtworks}
-          handleAddToExhibition={handleAddToExhibition}
-          exhibition={exhibition}
-        />
+        <ArtworksDisplay artworks={results} handleAddToExhibition={handleAddToExhibition} exhibition={exhibition} />
       </main>
     </div>
   );

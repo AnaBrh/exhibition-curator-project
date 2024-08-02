@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import SortDropdown from './SortDropdown'; 
 
-const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition, exhibition }) => {
+const ArtworksDisplay = ({ artworks, handleAddToExhibition, exhibition }) => {
   const [selectedArtwork, setSelectedArtwork] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [sortOption, setSortOption] = useState('relevance');
-  const [sortedHarvardArtworks, setSortedHarvardArtworks] = useState([]);
-  const [sortedMetArtworks, setSortedMetArtworks] = useState([]);
+  const [sortedArtworks, setSortedArtworks] = useState([]);
 
   const getArtistName = (artwork) => {
     if (artwork.artistDisplayName) {
@@ -27,10 +26,10 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition, 
             return (a.title || '').localeCompare(b.title || '');
           case 'title-desc':
             return (b.title || '').localeCompare(a.title || '');
-            case 'date-asc':
-              return new Date(a.dateend || a.objectEndDate) - new Date(b.dateend || b.objectEndDate);
-            case 'date-desc':
-              return new Date(b.dateend || b.objectEndDate) - new Date(a.dateend || a.objectEndDate);
+          case 'date-asc':
+            return new Date(a.dateend || a.objectEndDate) - new Date(b.dateend || b.objectEndDate);
+          case 'date-desc':
+            return new Date(b.dateend || b.objectEndDate) - new Date(a.dateend || a.objectEndDate);
           case 'artist-asc':
             return (getArtistName(a) || 'zzzzz').localeCompare(getArtistName(b) || 'zzzzz');
           case 'artist-desc':
@@ -42,9 +41,8 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition, 
       });
     };
 
-    setSortedHarvardArtworks(sortArtworks(harvardArtworks, sortOption));
-    setSortedMetArtworks(sortArtworks(metArtworks, sortOption));
-  }, [harvardArtworks, metArtworks, sortOption]);
+    setSortedArtworks(sortArtworks(artworks, sortOption));
+  }, [artworks, sortOption]);
 
   const handleOpenModal = (artwork) => {
     setSelectedArtwork(artwork);
@@ -80,22 +78,10 @@ const ArtworksDisplay = ({ harvardArtworks, metArtworks, handleAddToExhibition, 
     <div>
       <SortDropdown sortOption={sortOption} onSortChange={setSortOption} />
       <div>
-      {sortedHarvardArtworks.map(artwork => (
-          <div key={artwork.objectid}>
+        {sortedArtworks.map(artwork => (
+          <div key={artwork.objectid || artwork.objectID}>
             <img 
-              src={artwork.imageUrl} 
-              alt={artwork.title} 
-              onClick={() => handleOpenModal(artwork)}
-              style={{ cursor: 'pointer', display: 'block', maxWidth: '100%' }}
-            />
-            <h3>{artwork.title}</h3>
-            <p>{getArtistName(artwork)}</p>
-          </div>
-        ))}
-        {sortedMetArtworks.map(artwork => (
-          <div key={artwork.objectID}>
-            <img 
-              src={artwork.primaryImage} 
+              src={artwork.imageUrl || artwork.primaryImage} 
               alt={artwork.title} 
               onClick={() => handleOpenModal(artwork)}
               style={{ cursor: 'pointer', display: 'block', maxWidth: '100%' }}
