@@ -23,15 +23,3 @@ const SortDropdown = ({ sortOption, onSortChange }) => {
 };
 
 export default SortDropdown;
-
-
-/* sort by:
-relevance
-title (a-z) title(HAR&MET)
-title (z-a)
-date (newes-oldest) objectEndDate(MET) dateend(HAR)
-date (oldest-newest)
-artist (a-z) artistAlphaSort(MET) people.alphasort(HAR) 
-artist (z-a)
-
-*/
