@@ -72,6 +72,8 @@ const fetchArtworks = async (query, filters = {}, sortOption = '') => {
     fetchMetArtworks(query, filters, sortOption)
   ]);
 
+  console.log('Combined Artworks:', { harvardArtworks, metArtworks });
+  
   return {
     harvardArtworks,
     metArtworks
