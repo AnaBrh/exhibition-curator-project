@@ -3,31 +3,34 @@ import { fetchArtworks } from './api';
 import ArtworksDisplay from './ArtworksDisplay';
 import { Link } from 'react-router-dom';
 
-const MainPage = ({ setArtworks }) => {
+const MainPage = () => {
   const [query, setQuery] = useState('');
   const [filters, setFilters] = useState({});
   const [sortOption, setSortOption] = useState('');
   const [results, setResults] = useState({ harvardArtworks: [], metArtworks: [] });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [exhibition, setExhibition] = useState([]); 
 
-  const handleAddToExhibition = (artwork, source) => {
-    let exhibition = JSON.parse(sessionStorage.getItem('exhibition')) || [];
+  const handleAddToExhibition = (artwork, source, action) => {
+    let exhibitionList = JSON.parse(sessionStorage.getItem('exhibition')) || [];
 
-    const isArtworkInExhibition = exhibition.some(item => {
-      if (source === 'harvard') {
-        return item.objectid === artwork.objectid;
-      } else if (source === 'met') {
-        return item.objectID === artwork.objectID;
+    if (action === 'add') {
+      if (!exhibitionList.some(item => 
+        (source === 'harvard' && item.objectid === artwork.objectid) ||
+        (source === 'met' && item.objectID === artwork.objectID)
+      )) {
+        exhibitionList.push({ ...artwork, source });
+        sessionStorage.setItem('exhibition', JSON.stringify(exhibitionList));
+        setExhibition(exhibitionList);
       }
-      return false;
-    });
-
-    if (!isArtworkInExhibition) {
-      const artworkWithSource = { ...artwork, source };
-      exhibition.push(artworkWithSource);
-      sessionStorage.setItem('exhibition', JSON.stringify(exhibition));
-      setArtworks(exhibition);
+    } else if (action === 'remove') {
+      exhibitionList = exhibitionList.filter(item =>
+        !((source === 'harvard' && item.objectid === artwork.objectid) ||
+          (source === 'met' && item.objectID === artwork.objectID))
+      );
+      sessionStorage.setItem('exhibition', JSON.stringify(exhibitionList));
+      setExhibition(exhibitionList);
     }
   };
 
@@ -74,6 +77,7 @@ const MainPage = ({ setArtworks }) => {
           harvardArtworks={results.harvardArtworks} 
           metArtworks={results.metArtworks}
           handleAddToExhibition={handleAddToExhibition}
+          exhibition={exhibition}
         />
       </main>
     </div>
