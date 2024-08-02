@@ -67,6 +67,12 @@ const ExhibitionPage = () => {
     }
   };
 
+  const formatDate = (artwork) => artwork.dated || artwork.objectDate || 'Unknown';
+  const formatClassification = (artwork) => artwork.classification || 'Unknown';
+  const formatDepartment = (artwork) => artwork.department || 'Unknown';
+  const formatMedium = (artwork) => artwork.medium || 'Unknown';
+  const getMoreInfoUrl = (artwork) => artwork.url || artwork.objectURL || '#';
+
   return (
     <div>
       <header>
@@ -101,7 +107,11 @@ const ExhibitionPage = () => {
               <img src={selectedArtwork.imageUrl || selectedArtwork.primaryImage} alt={selectedArtwork.title} style={{ width: '300px', height: 'auto' }} />
               <h1>{selectedArtwork.title}</h1>
               <p>Artist: {getArtistName(selectedArtwork)}</p>
-              <p>Date: {selectedArtwork.date || 'Unknown'}</p>
+            <p>Date: {formatDate(selectedArtwork)}</p>
+            <p>Medium: {formatMedium(selectedArtwork)}</p>
+            <p>Classification: {formatClassification(selectedArtwork)}</p>
+            <p>Department: {formatDepartment(selectedArtwork)}</p>
+            <a href={getMoreInfoUrl(selectedArtwork)} target="_blank" rel="noopener noreferrer">More Info</a>
               <button onClick={handleAddRemoveArtwork}>
                 {exhibition.some(item =>
                   (selectedArtwork.source === 'harvard' && item.objectid === selectedArtwork.objectid) ||
