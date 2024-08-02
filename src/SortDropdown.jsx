@@ -9,6 +9,7 @@ const SortDropdown = ({ sortOption, onSortChange }) => {
         id="sort-options"
         value={sortOption}
         onChange={(e) => onSortChange(e.target.value)}
+        aria-label="Sort options"
       >
         <option value="relevance">Relevance</option>
         <option value="title-asc">Title (A-Z)</option>
