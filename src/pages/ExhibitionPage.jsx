@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
+import { getArtistName } from '../utils/getArtistName';
+import {
+  formatDate,
+  formatClassification,
+  formatDepartment,
+  formatMedium,
+  getMoreInfoUrl,
+} from "../utils/formatting";
 
 const ExhibitionPage = () => {
   const [exhibition, setExhibition] = useState([]);
@@ -14,15 +22,6 @@ const ExhibitionPage = () => {
     }
   }, []);
 
-  const getArtistName = (artwork) => {
-    if (artwork.artistDisplayName) {
-      return artwork.artistDisplayName;
-    }
-    if (artwork.people && artwork.people.length > 0) {
-      return artwork.people[0].displayname || '';
-    }
-    return '';
-  };
 
   const handleOpenModal = (artwork) => {
     setSelectedArtwork(artwork);
@@ -67,12 +66,6 @@ const ExhibitionPage = () => {
     }
   };
 
-  const formatDate = (artwork) => artwork.dated || artwork.objectDate || 'Unknown';
-  const formatClassification = (artwork) => artwork.classification || 'Unknown';
-  const formatDepartment = (artwork) => artwork.department || 'Unknown';
-  const formatMedium = (artwork) => artwork.medium || 'Unknown';
-  const getMoreInfoUrl = (artwork) => artwork.url || artwork.objectURL || '#';
-
   return (
     <div>
       <header>
@@ -81,9 +74,9 @@ const ExhibitionPage = () => {
       </header>
 
       <main>
-        <div>
+        <div className='artwork-grid'>
           {exhibition.map(artwork => (
-            <div key={artwork.objectid || artwork.objectID}>
+            <div id='artwork-item' key={artwork.objectid || artwork.objectID}>
               <img 
                 src={artwork.imageUrl || artwork.primaryImage} 
                 alt={artwork.title} 
