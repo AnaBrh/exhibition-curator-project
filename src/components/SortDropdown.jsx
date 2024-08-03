@@ -9,6 +9,7 @@ const SortDropdown = ({ sortOption, onSortChange }) => {
         value={sortOption}
         onChange={(e) => onSortChange(e.target.value)}
         aria-label="Sort options"
+         aria-describedby="sort-options-helper-text"
       >
         <option value="relevance">Relevance</option>
         <option value="title-asc">Title (A-Z)</option>
@@ -18,6 +19,9 @@ const SortDropdown = ({ sortOption, onSortChange }) => {
         <option value="artist-asc">Artist (A-Z)</option>
         <option value="artist-desc">Artist (Z-A)</option>
       </select>
+      <div id="sort-options-helper-text" hidden>
+  Select how you want to sort the artworks.
+</div>
     </div>
   );
 };

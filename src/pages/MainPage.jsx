@@ -12,6 +12,10 @@ const MainPage = () => {
   const [error, setError] = useState(null);
   const [exhibition, setExhibition] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
+  const [notification, setNotification] = useState({
+    message: "",
+    severity: "",
+  });
 
   const handleAddToExhibition = (artwork, source, action) => {
     let exhibitionList = JSON.parse(sessionStorage.getItem("exhibition")) || [];
@@ -44,6 +48,7 @@ const MainPage = () => {
   const handleSearch = async () => {
     setLoading(true);
     setError(null);
+    setNotification({ message: "", severity: "" });
     try {
       const data = await fetchArtworks(query, filters, sortOption);
       setResults(data);
@@ -51,9 +56,27 @@ const MainPage = () => {
     } catch (err) {
       console.error("Error fetching artworks:", err);
       setError(err);
+      setNotification({
+        message: "Failed to load artworks.",
+        severity: "error",
+      });
     } finally {
       setLoading(false);
     }
+  };
+
+  const renderNotification = () => {
+    if (notification.message) {
+      return (
+        <div role="alert">
+          <p>{notification.message}</p>
+          {notification.severity === "error" && (
+            <span style={{ color: "red" }}>(Please try again later.)</span>
+          )}
+        </div>
+      );
+    }
+    return null;
   };
 
   const handleKeyPress = (event) => {
@@ -66,13 +89,13 @@ const MainPage = () => {
     <div>
       <h1 aria-label="Search the Gallery">Search the Gallery</h1>
       <header>
-      {hasSearched && (
+        {hasSearched && (
           <Link to="/exhibition" id="exhibition-link">
             View My Exhibition
           </Link>
         )}
         <input
-        aria-label="Search Bar"
+          aria-label="Search Bar"
           className="search-bar"
           type="text"
           value={query}
@@ -83,6 +106,10 @@ const MainPage = () => {
         <button onClick={handleSearch}>Search</button>
       </header>
       <main>
+        {hasSearched && (
+          <p id="modal-description">Select an artwork to view details.</p>
+        )}
+        {renderNotification()}
         {loading && <p>Loading...</p>}
         {error && <p>Error: {error.message}</p>}
         <ArtworksDisplay
