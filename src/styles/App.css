@@ -1,4 +1,22 @@
+#root {
+  max-width: 1600px; /* Increased max-width */
+  margin: 20px;
+  padding: 2rem;
+  text-align: center;
+  background-color: #242424;
+}
 
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  background-color: #242424;
+  padding: 20px;
+}
 .artwork-container {
   max-width: 1600px; 
   width: 100%;
@@ -9,7 +27,6 @@
   align-items: center;
   text-align: center;
 }
-
 .artwork-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -17,47 +34,28 @@
   margin-bottom: 30px;
   width: 100%;
 }
-
 .artwork-item {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
 }
-
 .artwork-item img {
   width: 100%;
   height: auto;
   object-fit: cover;
 }
-
-#root {
-  max-width: 1600px; /* Increased max-width */
-  margin: 20px;
-  padding: 2rem;
-  text-align: center;
-  background-color: #242424;
+#card-title {
+  font-size: 1.4em;
+  color: #fff;
+  font-weight: 500;
 }
-
-header {
-  align-items: center;
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  width: 100%;
-  background-color: #242424;
-  padding: 20px;
-}
-
 #exhibition-link {
   color: #fff;
   font-size: large;
 }
-
 #exhibition-link:hover {
   color: #535bf2;
 }
-
-/* search bar styling */
 .search-bar {
   width: 100%;
   max-width: 600px;
@@ -68,33 +66,20 @@ header {
   border-color: #1a1a1a;
   border-style: double;
 }
-
 .search-bar:hover {
   border-color: #646cff;
 }
-
-/* sort box styling */
 #sort-options {
   padding: 5px;
   background-color: #242424;
   border-radius: 8px;
   margin-bottom: 10px;
 }
-
-/* .sort-box {
-  text-align: left;
-  margin-left: auto;
-  padding: 20px;
-  width: 100%;
-  max-width: 600px;
-} */
 .sort-box {
   align-self: flex-start;
   margin-bottom: 20px;
   width: auto; 
 }
-
-/* modal styling */
 .modal {
   color: #fff;
   border-radius: 8px;
@@ -102,34 +87,22 @@ header {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   max-width: 600px;
   margin: 2rem auto;
-  background-color: #333; /* Added background color */
 }
-
-.ReactModal__Overlay {
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 #info-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 100%; /* Ensure text wraps within the modal */
+  max-width: 100%; 
 }
-
 .top-button-container {
   position: relative;
   padding: 20px;
 }
-
 #top-button {
   position: absolute;
   top: 1px;
   right: 1px;
 }
-
 #centered-image {
   display: block;
   margin: 20px auto;
@@ -137,27 +110,28 @@ header {
   height: auto;
   margin-top: 20px;
 }
-
 .bottom-button-container {
   position: relative;
   padding: 20px;
 }
-
 #bottom-button {
   position: absolute;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
 }
-
 #modal-h1 {
   font-size: 2em;
 }
-
 #modal-text {
   padding: 10px;
 }
-
 #artwork-card {
   padding: 20px;
+}
+.ReactModal__Overlay {
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

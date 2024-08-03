@@ -10,24 +10,20 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
   padding: 10px;
 }
-
 a:hover {
   color: #535bf2;
 }
-
 body {
   overflow: auto;
   margin: 0;
@@ -40,13 +36,11 @@ body {
   background-color: #242424;
   z-index: 0;
 }
-
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
   padding: 10px;
 }
-
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -58,16 +52,13 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-
 button:hover {
   border-color: #646cff;
 }
-
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
 img:hover {
   border-color: #646cff;
 }
