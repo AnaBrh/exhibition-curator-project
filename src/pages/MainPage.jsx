@@ -11,7 +11,7 @@ const MainPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [exhibition, setExhibition] = useState([]);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
 
   const handleAddToExhibition = (artwork, source, action) => {
     let exhibitionList = JSON.parse(sessionStorage.getItem("exhibition")) || [];
@@ -47,6 +47,7 @@ const MainPage = () => {
     try {
       const data = await fetchArtworks(query, filters, sortOption);
       setResults(data);
+      setHasSearched(true);
     } catch (err) {
       console.error("Error fetching artworks:", err);
       setError(err);
@@ -63,16 +64,22 @@ const MainPage = () => {
 
   return (
     <div>
-        <h1>Search the Gallery</h1>
+      <h1 aria-label="Search the Gallery">Search the Gallery</h1>
       <header>
-        <Link to="/exhibition" id="exhibition-link">View My Exhibition</Link>
+      {hasSearched && (
+          <Link to="/exhibition" id="exhibition-link">
+            View My Exhibition
+          </Link>
+        )}
         <input
+        aria-label="Search Bar"
           className="search-bar"
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyPress}
-          placeholder="Search..."        />
+          placeholder="Search..."
+        />
         <button onClick={handleSearch}>Search</button>
       </header>
       <main>
