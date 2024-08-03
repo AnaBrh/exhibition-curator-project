@@ -13,21 +13,6 @@ const MainPage = () => {
   const [exhibition, setExhibition] = useState([]);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const show = window.scrollY > 50;
-      if (show !== isScrolled) {
-        setIsScrolled(show);
-      }
-    };
-
-    document.addEventListener("scroll", handleScroll);
-
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-    };
-  }, [isScrolled]);
-
   const handleAddToExhibition = (artwork, source, action) => {
     let exhibitionList = JSON.parse(sessionStorage.getItem("exhibition")) || [];
 
@@ -78,27 +63,18 @@ const MainPage = () => {
 
   return (
     <div>
-      <header className={`header ${isScrolled ? "header-fixed" : ""}`}>
         <h1>Search the Gallery</h1>
-        <Link to="/exhibition">View My Exhibition</Link>
+      <header>
+        <Link to="/exhibition" id="exhibition-link">View My Exhibition</Link>
         <input
-        className="search-bar"
+          className="search-bar"
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={handleKeyPress}
-          placeholder="Search all fields"
-        />
+          placeholder="Search..."        />
         <button onClick={handleSearch}>Search</button>
       </header>
-      {isScrolled && (
-        <button
-          className="back-to-top-btn"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        >
-          Back to Top
-        </button>
-      )}
       <main>
         {loading && <p>Loading...</p>}
         {error && <p>Error: {error.message}</p>}
