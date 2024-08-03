@@ -41,7 +41,7 @@ const ExhibitionPage = () => {
         (selectedArtwork.source === 'met' && item.objectID === selectedArtwork.objectID)
       ) ? 'remove' : 'add';
       handleAddToExhibition(selectedArtwork, selectedArtwork.source, action);
-      handleCloseModal(); // Close modal after action
+      handleCloseModal();
     }
   };
 

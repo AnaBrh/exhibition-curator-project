@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { fetchArtworks } from './api';
-import ArtworksDisplay from './ArtworksDisplay';
+import { fetchArtworks } from '../api/fetchArtworks';
+import ArtworksDisplay from '../components/ArtworksDisplay';
 import { Link } from 'react-router-dom';
 
 const MainPage = () => {

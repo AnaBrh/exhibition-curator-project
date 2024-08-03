@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import SortDropdown from './SortDropdown'; 
+import { getArtistName } from '../utils/getArtistName';
+import { formatDate, formatClassification, formatDepartment, formatMedium, getMoreInfoUrl } from '../utils/formatting';
 
 const ArtworksDisplay = ({ artworks, handleAddToExhibition, exhibition }) => {
   const [selectedArtwork, setSelectedArtwork] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [sortOption, setSortOption] = useState('relevance');
   const [sortedArtworks, setSortedArtworks] = useState([]);
-
-  const getArtistName = (artwork) => {
-    if (artwork.artistDisplayName) {
-      return artwork.artistDisplayName;
-    }
-    if (artwork.people && artwork.people.length > 0) {
-      return artwork.people[0].displayname || '';
-    }
-    return '';
-  };
 
   useEffect(() => {
     const sortArtworks = (artworks, option) => {
@@ -67,12 +59,6 @@ const ArtworksDisplay = ({ artworks, handleAddToExhibition, exhibition }) => {
       (artwork.source === 'met' && item.objectID === artwork.objectID)
     );
   };
-
-  const formatDate = (artwork) => artwork.dated || artwork.objectDate || 'Unknown';
-  const formatClassification = (artwork) => artwork.classification || 'Unknown';
-  const formatDepartment = (artwork) => artwork.department || 'Unknown';
-  const formatMedium = (artwork) => artwork.medium || 'Unknown';
-  const getMoreInfoUrl = (artwork) => artwork.url || artwork.objectURL || '#';
 
   return (
     <div>

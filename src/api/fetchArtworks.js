@@ -74,13 +74,11 @@ const fetchArtworks = async (query, filters = {}, sortOption = '') => {
 
   console.log('Combined Artworks:', { harvardArtworks, metArtworks });
   
-// Combine the results
 const combinedArtworks = [
   ...harvardArtworks.map(artwork => ({ ...artwork, source: 'harvard' })),
   ...metArtworks.map(artwork => ({ ...artwork, source: 'met' }))
 ];
 
-// Return the combined list
 return combinedArtworks;
 };
 

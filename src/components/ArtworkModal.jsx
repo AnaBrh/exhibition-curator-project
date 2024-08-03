@@ -1,20 +1,12 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { getArtistName } from '../utils/getArtistName';
+import { formatDate, formatClassification, formatDepartment, formatMedium, getMoreInfoUrl } from '../utils/formatting';
 
 Modal.setAppElement('#root');
 
-const ArtworkModal = ({ isOpen, onRequestClose, artwork }) => {
+const ArtworkModal = ({ isOpen, onRequestClose, artwork, handleAddRemoveArtwork, isArtworkInExhibition }) => {
   if (!artwork) return null;
-
-  const getArtistName = (artwork) => {
-    if (artwork.artistDisplayName) {
-      return artwork.artistDisplayName;
-    }
-    if (artwork.people && artwork.people.length > 0) {
-      return artwork.people[0].displayname || '';
-    }
-    return 'Unknown Artist';
-  };
 
   const imageUrl = artwork.primaryImage || artwork.imageUrl || artwork.primaryimageurl;
 
@@ -45,11 +37,14 @@ const ArtworkModal = ({ isOpen, onRequestClose, artwork }) => {
         style={{ width: '300px', height: 'auto' }} 
       />
       <h2>Artist: {getArtistName(artwork)}</h2>
-      <p><strong>Date:</strong> {artwork.dated || artwork.objectDate}</p>
-      <p><strong>Medium:</strong> {artwork.medium}</p>
-      <p><strong>Dimensions:</strong> {artwork.dimensions}</p>
-      <p><strong>Description:</strong> {artwork.description || artwork.labeltext}</p>
-      <p><strong>Credit Line:</strong> {artwork.creditline}</p>
+      <p><strong>Date:</strong> {formatDate(artwork)}</p>
+      <p><strong>Medium:</strong> {formatMedium(artwork)}</p>
+      <p><strong>Classification:</strong> {formatClassification(artwork)}</p>
+      <p><strong>Department:</strong> {formatDepartment(artwork)}</p>
+      <a href={getMoreInfoUrl(artwork)} target="_blank" rel="noopener noreferrer">More Info</a>
+      <button onClick={handleAddRemoveArtwork}>
+        {isArtworkInExhibition(artwork) ? 'Remove from Exhibition' : 'Add to Exhibition'}
+      </button>
     </Modal>
   );
 };
