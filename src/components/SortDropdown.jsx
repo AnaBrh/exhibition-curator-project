@@ -2,7 +2,7 @@ import React from 'react';
 
 const SortDropdown = ({ sortOption, onSortChange }) => {
   return (
-    <div>
+    <div className='sort-box'>
       <label htmlFor="sort-options">Sort by: </label>
       <select
         id="sort-options"

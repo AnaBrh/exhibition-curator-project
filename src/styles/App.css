@@ -1,42 +1,163 @@
-/* #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+
+.artwork-container {
+  max-width: 1600px; 
+  width: 100%;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.artwork-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+  width: 100%;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.artwork-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.artwork-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 
-.card {
-  padding: 2em;
+#root {
+  max-width: 1600px; /* Increased max-width */
+  margin: 20px;
+  padding: 2rem;
+  text-align: center;
+  background-color: #242424;
 }
 
-.read-the-docs {
-  color: #888;
+header {
+  align-items: center;
+  position: sticky;
+  z-index: 1;
+  top: 0;
+  width: 100%;
+  background-color: #242424;
+  padding: 20px;
+}
+
+#exhibition-link {
+  color: #fff;
+  font-size: large;
+}
+
+#exhibition-link:hover {
+  color: #535bf2;
+}
+
+/* search bar styling */
+.search-bar {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  border-radius: 20px;
+  background-color: #3a3a3a;
+  padding: 10px;
+  border-color: #1a1a1a;
+  border-style: double;
+}
+
+.search-bar:hover {
+  border-color: #646cff;
+}
+
+/* sort box styling */
+#sort-options {
+  padding: 5px;
+  background-color: #242424;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* .sort-box {
+  text-align: left;
+  margin-left: auto;
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
 } */
+.sort-box {
+  align-self: flex-start;
+  margin-bottom: 20px;
+  width: auto; 
+}
+
+/* modal styling */
+.modal {
+  color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+  margin: 2rem auto;
+  background-color: #333; /* Added background color */
+}
+
+.ReactModal__Overlay {
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 100%; /* Ensure text wraps within the modal */
+}
+
+.top-button-container {
+  position: relative;
+  padding: 20px;
+}
+
+#top-button {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+}
+
+#centered-image {
+  display: block;
+  margin: 20px auto;
+  max-width: 90%;
+  height: auto;
+  margin-top: 20px;
+}
+
+.bottom-button-container {
+  position: relative;
+  padding: 20px;
+}
+
+#bottom-button {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#modal-h1 {
+  font-size: 2em;
+}
+
+#modal-text {
+  padding: 10px;
+}
+
+#artwork-card {
+  padding: 20px;
+}
