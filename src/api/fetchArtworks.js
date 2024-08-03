@@ -18,7 +18,7 @@ const fetchMetArtworks = async (query, filters = {}, sortOption = '') => {
     const objectIDs = searchResponse.data.objectIDs || [];
 
     const artworks = await Promise.all(
-      objectIDs.slice(0, 50).map(id => axios.get(`${MET_API_URL}/objects/${id}`))
+      objectIDs.slice(0, 500).map(id => axios.get(`${MET_API_URL}/objects/${id}`))
     );
 
     return artworks
@@ -39,6 +39,7 @@ const fetchHarvardArtworks = async (query, filters = {}, sortOption = '') => {
       apikey: HARVARD_API_KEY,
       hasimage: 1,
       q: query,
+      size: 500,
       ...filters,
       sort: sortOption,
     };
