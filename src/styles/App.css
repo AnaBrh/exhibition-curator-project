@@ -1,21 +1,9 @@
 #root {
-  max-width: 1600px; /* Increased max-width */
-  margin: 20px;
-  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 20px 20px 20px;
+  padding: 0 2rem 2rem 2rem;
   text-align: center;
   background-color: #242424;
-}
-
-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: sticky;
-  z-index: 1;
-  top: 0;
-  width: 100%;
-  background-color: #242424;
-  padding: 20px;
 }
 .artwork-container {
   max-width: 1600px; 
@@ -44,11 +32,6 @@ header {
   height: auto;
   object-fit: cover;
 }
-#card-title {
-  font-size: 1.4em;
-  color: #fff;
-  font-weight: 500;
-}
 #exhibition-link {
   color: #fff;
   font-size: large;
@@ -74,64 +57,92 @@ header {
   background-color: #242424;
   border-radius: 8px;
   margin-bottom: 10px;
+  transition: border-color 0.25s;
+  cursor: pointer;
+  font-family: inherit;
+}
+#sort-options:hover {
+  border-color: #646cff;
 }
 .sort-box {
   align-self: flex-start;
   margin-bottom: 20px;
   width: auto; 
 }
-.modal {
-  color: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  max-width: 600px;
-  margin: 2rem auto;
-}
-#info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  max-width: 100%; 
-}
-.top-button-container {
-  position: relative;
-  padding: 20px;
-}
-#top-button {
-  position: absolute;
-  top: 1px;
-  right: 1px;
-}
-#centered-image {
-  display: block;
-  margin: 20px auto;
-  max-width: 90%;
-  height: auto;
-  margin-top: 20px;
-}
-.bottom-button-container {
-  position: relative;
-  padding: 20px;
-}
-#bottom-button {
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-#modal-h1 {
-  font-size: 2em;
-}
-#modal-text {
-  padding: 10px;
-}
-#artwork-card {
-  padding: 20px;
-}
+
 .ReactModal__Overlay {
   z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.modal-body {
+  display: flex;
+  flex-direction: row;
+  height: calc(90vh - 80px);
+  overflow: auto;
+}
+.modal-image {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-image img {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: scale-down;
+}
+#modal-h1{
+padding: 0;
+font-size: 40px;
+}
+#modal-h2 {
+  font-size: 30px;
+}
+#top-modal-info {
+  padding-bottom: 20px;
+}
+.modal-info {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  font-size: 30x;
+}
+#modal-description {
+padding-bottom: 20px;
+}
+#modal-link {
+  padding-top: 20px;
+}
+.modal-footer {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .modal-body {
+    flex-direction: column;
+    height: auto;
+  }
+  .modal-image {
+    width: 100%;
+    padding: 20px;
+  }
+  .modal-info {
+    padding: 20px;
+    font-size: 16px;
+  }
+  #modal-h1 {
+    font-size: 30px;
+  }
+  #modal-h2 {
+    font-size: 20px;
+  }
 }
