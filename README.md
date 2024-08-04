@@ -3,6 +3,7 @@
 ## Description
 
 Exhibition Curator is a web application designed to explore and interact with art collections from the Metropolitan Museum of Art (MET) and Harvard Museum of Art. 
+
 Users can search for artworks, sort them according to various criteria, view detailed information about each artwork, and even add their favorite pieces to a personal collection.
 
 ## Features
