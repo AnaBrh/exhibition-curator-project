@@ -1,4 +1,4 @@
-# Echibition Curator
+# Exhibition Curator
 
 ## Description
 
