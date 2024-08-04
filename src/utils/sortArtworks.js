@@ -1,3 +1,5 @@
+import { getArtistName } from "./getArtistName";
+
 export const sortArtworks = (artworks, option) => {
   return [...artworks].sort((a, b) => {
     switch (option) {
