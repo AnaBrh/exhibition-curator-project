@@ -70,7 +70,7 @@ const ExhibitionPage = () => {
     <div>
       <header>
         <h1>My Exhibition</h1>
-        <Link to="/">Back to Search</Link>
+        <Link to="/">Home</Link>
       </header>
 
       <main>
